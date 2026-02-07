@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendaIA Gold - Professional Advisor v3.8</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="dark-theme">
+    <div class="glass-bg"></div>
+    <div class="app-layout">
+        <aside class="sidebar" id="main-sidebar" style="display:none;">
+            <div class="sidebar-header">
+                <span class="logo">SENDA<span class="gold">IA</span></span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-label">Categorías</span>
+                    <button class="nav-link active" data-category="VOICE">
+                        <i class="icon">🎤</i> Voz AI
+                    </button>
+                    <button class="nav-link" data-category="CHAT">
+                        <i class="icon">💬</i> Chatbot Web
+                    </button>
+                    <button class="nav-link" data-category="WSP">
+                        <i class="icon">📱</i> WhatsApp IA
+                    </button>
+                    <button class="nav-link" data-category="OCR">
+                        <i class="icon">📄</i> OCR Automático
+                    </button>
+                    <button class="nav-link" data-category="CRM">
+                        <i class="icon">📋</i> CRM SendaIA
+                    </button>
+                    <button class="nav-link" data-category="SUPPORT">
+                        <i class="icon">🛠️</i> Soporte
+                    </button>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">Soluciones</span>
+                    <button class="nav-link" data-category="PACKS">
+                        <i class="icon">📦</i> Packs Premium
+                    </button>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="finish-selection" class="btn-primary-small">Terminar Selección ➔</button>
+            </div>
+        </aside>
+        <main class="main-panel">
+            <div class="wizard-stepper">
+                <div class="step-indicator active" id="dot-1"><span>1</span><label>Datos</label></div>
+                <div class="connector"></div>
+                <div class="step-indicator" id="dot-2"><span>2</span><label>Selección</label></div>
+                <div class="connector"></div>
+                <div class="step-indicator" id="dot-3"><span>3</span><label>Confirmación</label></div>
+            </div>
+            <div class="content-view">
+                <section id="step-1" class="wizard-step active">
+                    <div class="hero-header">
+                        <span class="badge-gold">SendaIA Enterprise</span>
+                        <h1>Nueva Propuesta de Autoridad</h1>
+                        <p>Completa los datos del cliente para iniciar el diagnóstico técnico.</p>
+                    </div>
+                    <div class="premium-form-card">
+                        <div class="form-grid-layout">
+                            <div class="input-field-group">
+                                <label>Empresa Cliente</label>
+                                <div class="input-wrapper">
+                                    <i>🏢</i>
+                                    <input type="text" id="client-company" placeholder="Ej: Aircontec S.L.">
+                                </div>
+                            </div>
+                            <div class="input-field-group">
+                                <label>Responsable de Contacto</label>
+                                <div class="input-wrapper">
+                                    <i>👤</i>
+                                    <input type="text" id="client-name" placeholder="Ej: Santiago Guerra">
+                                </div>
+                            </div>
+                            <div class="input-field-group">
+                                <label>Sector de Actividad</label>
+                                <div class="input-wrapper">
+                                    <i>🎯</i>
+                                    <select id="client-sector">
+                                        <option value="Inmobiliaria">Inmobiliaria</option>
+                                        <option value="Clínica">Salud / Estética</option>
+                                        <option value="Industria">Industria / Energía</option>
+                                        <option value="Servicios">Servicios B2B</option>
+                                        <option value="Otro">Otro Sector</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-field-group">
+                                <label>Tamaño Operativo</label>
+                                <div class="input-wrapper">
+                                    <i>📊</i>
+                                    <select id="client-size">
+                                        <option value="1-5">Micro (1-5)</option>
+                                        <option value="5-15">Small (5-15)</option>
+                                        <option value="15-50">Medium (15-50)</option>
+                                        <option value="50+">Enterprise (50+)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <button id="start-discovery" class="btn-giant-gold">Iniciar Selección de Soluciones ➔</button>
+                        </div>
+                    </div>
+                </section>
+                <section id="step-2" class="wizard-step">
+                    <div class="view-header">
+                        <h2 id="category-title">Cargando...</h2>
+                        <p id="category-desc">Selecciona los bloques de construcción para la propuesta.</p>
+                    </div>
+                    <div class="product-grid" id="product-grid"></div>
+                </section>
+                <section id="step-3" class="wizard-step">
+                    <div class="hero-header">
+                        <h1>Revisión de Propuesta</h1>
+                        <p id="review-client-text">Propuesta para Aircontec</p>
+                    </div>
+                    <div class="review-layout">
+                        <div class="review-details">
+                            <h3>Resumen de Soluciones Seleccionadas</h3>
+                            <div id="review-items-list" class="review-items-list"></div>
+                        </div>
+                        <div class="final-actions-card">
+                            <div class="final-stats">
+                                <div class="stat-row"><span>Implementación:</span> <strong id="final-setup">0€</strong></div>
+                                <div class="stat-row"><span>Total Mensual:</span> <strong id="final-monthly">0€</strong></div>
+                                <div class="stat-row"><span>Inversión Año 1:</span> <strong id="final-year1" class="gold">0€</strong></div>
+                                <div class="stat-row"><span>Recurrente Año 2+:</span> <strong id="final-year2">0€</strong></div>
+                                <div class="stat-row"><span>Margen Operativo:</span> <strong id="final-margin">0%</strong></div>
+                            </div>
+                            <p class="confirmation-text">¿Los datos son correctos? Al confirmar se generará el PDF y se registrará en Google Sheets.</p>
+                            <div class="action-grid">
+                                <button id="back-to-edit" class="btn-secondary">Modificar Selección</button>
+                                <button id="confirm-all" class="btn-success-giant">Confirmar y Enviar 🚀</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <aside class="summary-panel" id="summary-panel" style="display:none;">
+            <div class="panel-header">
+                <h3>Resumen Proyectado</h3>
+                <button id="clear-btn" class="icon-btn">🗑️</button>
+            </div>
+            <div class="roi-mini-tool">
+                <label>Ahorro Mensual Est.</label>
+                <input type="number" id="roi-saving" placeholder="2000" oninput="updateUI()">
+                <div id="roi-result" class="roi-badge">ROI: - meses</div>
+            </div>
+            <div class="summary-items" id="summary-items"></div>
+            <div class="summary-totals">
+                <div class="grand-total-box">
+                    <div class="total-line small"><span>Implementación</span><span id="setup-total">0 €</span></div>
+                    <div class="total-line small"><span>Suscripción</span><span id="monthly-total">0 €</span></div>
+                    <div class="divider"></div>
+                    <div class="total-row"><span>Inversión Año 1</span><span id="year1-total">0 €</span></div>
+                    <div class="total-row secondary"><span>Recurrente Año 2+</span><span id="year2-total">0 €</span></div>
+                </div>
+                <div class="boss-board">
+                    <div class="boss-tag">INTERNAL</div>
+                    <div class="boss-grid">
+                        <div class="boss-stat"><span class="label">Profit</span><span id="boss-profit" class="value success">0€</span></div>
+                        <div class="boss-stat"><span class="label">Margen</span><span id="boss-margin" class="value gold">0%</span></div>
+                        <div class="boss-stat"><span class="label">Días</span><span id="boss-days" class="value">0</span></div>
+                    </div>
+                </div>
+                <div class="authority-meter">
+                    <div class="meter-header"><span>Autoridad IA</span><span id="auth-level-label">Básico</span></div>
+                    <div class="meter-bar">
+                        <div id="auth-progress" class="meter-fill" style="width: 20%;"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div id="pdf-template" style="display:none;"></div>
+    <script src="scripts/pricing_engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
