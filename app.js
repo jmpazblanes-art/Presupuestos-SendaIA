@@ -1,5 +1,6 @@
 /**
- * SENDAIA DASHBOARD APP v4.1
+ * SENDAIA DASHBOARD APP v4.2
+ * Independencia Total: Google Apps Script Integration
  */
 
 const engine = new PricingEngine();
@@ -224,11 +225,58 @@ function renderReview() {
     if (els.finalMargin) els.finalMargin.innerText = res.margin + "%";
 }
 
+// CONFIGURACIÓN INDEPENDIENTE: Pega aquí la URL de tu "Implementación" de Google Apps Script
+const GOOGLE_SHEET_URL = ""; 
+
 async function saveAndFinish() {
-    const res = engine.calculate(); if (res.errors.length > 0) return alert(res.errors[0]);
-    els.btnConfirm.innerText = "Sincronizando..."; await new Promise(r => setTimeout(r, 1000));
-    alert("¡Propuesta Guardada!"); generatePDF(); els.btnConfirm.innerText = "Confirmar y Enviar 🚀";
+    const res = engine.calculate();
+    if (res.errors.length > 0) return alert(res.errors[0]);
+
+    if (!GOOGLE_SHEET_URL) {
+        alert("Configuración pendiente: Falta la URL de Google Sheets en app.js. Por ahora, solo generaremos el PDF.");
+        generatePDF();
+        return;
+    }
+
+    els.btnConfirm.innerText = "Guardando en Google Sheets...";
+    els.btnConfirm.disabled = true;
+
+    try {
+        const payload = {
+            company: state.clientData.company,
+            contact: state.clientData.contact,
+            sector: state.clientData.sector,
+            size: state.clientData.size,
+            setupTotal: res.setupTotal,
+            monthlyTotal: res.monthlyTotal,
+            year1Total: res.year1Total,
+            profit: Math.round(res.year1Total * 0.65),
+            itemsList: res.items.map(i => i.name).join(", ")
+        };
+
+        const response = await fetch(GOOGLE_SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Necesario para Google Apps Script
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        alert("¡Datos guardados en Google Sheets y Propuesta Generada!");
+        generatePDF();
+
+    } catch (err) {
+        console.error("Error al guardar:", err);
+        alert("Hubo un error al conectar con Google Sheets, pero generaremos el PDF de todos modos.");
+        generatePDF();
+    } finally {
+        els.btnConfirm.innerText = "Confirmar y Enviar 🚀";
+        els.btnConfirm.disabled = false;
+    }
 }
 
-function generatePDF() { window.print(); }
+
+function generatePDF() {
+    window.print();
+}
 window.onload = init;
